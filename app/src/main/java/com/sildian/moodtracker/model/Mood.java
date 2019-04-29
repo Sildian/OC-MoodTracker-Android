@@ -33,7 +33,9 @@ public class Mood {
      */
 
     public void increaseMood(){
-
+        mMoodLevel++;
+        if(mMoodLevel>SUPER_HAPPY)
+            mMoodLevel=SUPER_HAPPY;
     }
 
     /**
@@ -43,7 +45,9 @@ public class Mood {
      */
 
     public void decreaseMood(){
-
+        mMoodLevel--;
+        if(mMoodLevel<SAD)
+            mMoodLevel=SAD;
     }
 
 
