@@ -73,7 +73,7 @@ public class Mood {
     }
 
 
-    /**Getters**/
+    /**Getters and Setters**/
 
     public Calendar getDate() {
         return mDate;
@@ -85,5 +85,9 @@ public class Mood {
 
     public String getComment() {
         return mComment;
+    }
+
+    public void setComment(String comment) {
+        mComment = comment;
     }
 }

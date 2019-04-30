@@ -1,10 +1,13 @@
 package com.sildian.moodtracker.controller;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -20,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**Attributes**/
 
-    private FrameLayout mLayout;                    //The layout
+    private Context mContext;                       //Context
+    private FrameLayout mLayout;                    //Layout
     private ImageView mSmileyImage;                 //Smiley
     private ImageView mAddCommentButton;            //This button allows to add a comment
     private ImageView mHistoryButton;               //This button allows to see the history data
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         /*Get the components from the layout*/
 
+        mContext=this;
         mLayout=findViewById(R.id.activity_main_layout);
         mSmileyImage=findViewById(R.id.activity_main_image_smiley);
         mAddCommentButton=findViewById(R.id.activity_main_button_add_comment);
@@ -55,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
         /*Refresh the screen*/
 
         refreshScreen();
+
+        mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog commentDialog=new Dialog(mContext);
+                commentDialog.setContentView(R.layout.dialog_comment);
+                commentDialog.show();
+            }
+        });
     }
 
     @Override
