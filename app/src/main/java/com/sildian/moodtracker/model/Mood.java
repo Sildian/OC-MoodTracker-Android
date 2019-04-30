@@ -26,13 +26,26 @@ public class Mood {
     /**
      * Constructor
      * Fills mDate with the date of the current day
-     * Set mMoodLevel to HAPPY by default.
+     * Set mMoodLevel to HAPPY by default and mComment to ""
      */
 
     public Mood() {
         mDate=Calendar.getInstance();
         mMoodLevel=HAPPY;
         mComment="";
+    }
+
+    /**
+     * Constructor
+     * Fills mDate with the date of the current day
+     * @param moodLevel : the mood level
+     * @param comment : the comment
+     */
+
+    public Mood(int moodLevel, String comment) {
+        mDate=Calendar.getInstance();
+        mMoodLevel=moodLevel;
+        mComment=comment;
     }
 
     /**

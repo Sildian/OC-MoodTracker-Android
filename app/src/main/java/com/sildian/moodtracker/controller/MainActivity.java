@@ -13,6 +13,11 @@ import com.sildian.moodtracker.model.Mood;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**The keys for saving bundle**/
+
+    public static final String KEY_MOOD_LEVEL="1001";
+    public static final String KEY_MOOD_COMMENT="1002";
+
     /**Attributes**/
 
     private FrameLayout mLayout;                    //The layout
@@ -29,14 +34,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*Get the components from the layout*/
+
         mLayout=findViewById(R.id.activity_main_layout);
         mSmileyImage=findViewById(R.id.activity_main_image_smiley);
         mAddCommentButton=findViewById(R.id.activity_main_button_add_comment);
         mHistoryButton=findViewById(R.id.activity_main_button_history);
 
+        /*Creates a detector to catch the gestures on the screen*/
+
         mGestureDetector=new GestureDetectorCompat(this, new SwipeGestureListener());
 
-        mMood=new Mood();
+        /*Creates or recovers the mood*/
+
+        if(savedInstanceState==null)
+            mMood=new Mood();
+        else
+            mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
+
+        /*Refresh the screen*/
+
+        refreshScreen();
     }
 
     @Override
@@ -44,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
         mGestureDetector.onTouchEvent(event);
         refreshScreen();
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_MOOD_LEVEL, mMood.getMoodLevel());
+        outState.putString(KEY_MOOD_COMMENT, mMood.getComment());
+        super.onSaveInstanceState(outState);
     }
 
     /**
