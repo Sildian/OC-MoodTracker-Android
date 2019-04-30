@@ -8,23 +8,24 @@
         android:id="@+id/dialog_comment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:text="@string/text_comment" />
 
     <EditText
         android:id="@+id/dialog_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:layout_weight="1"
+        android:capitalize="sentences"
         android:ems="10"
         android:hint="@string/text_comment"
-        android:inputType="textMultiLine|text" />
+        android:inputType="textMultiLine|text|textCapSentences" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:gravity="end"
         android:orientation="horizontal">
 

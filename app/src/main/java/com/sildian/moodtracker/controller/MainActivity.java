@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**Attributes**/
 
-    private Context mContext;                       //Context
-    private FrameLayout mLayout;                    //Layout
-    private ImageView mSmileyImage;                 //Smiley
-    private ImageView mAddCommentButton;            //This button allows to add a comment
-    private ImageView mHistoryButton;               //This button allows to see the history data
-    private GestureDetectorCompat mGestureDetector; //Gesture detector allowing to monitor the swipe
-    private Mood mMood;                              //The current mood
+    private Context mContext;                           //Context
+    private FrameLayout mLayout;                        //Layout
+    private ImageView mSmileyImage;                     //Smiley
+    private ImageView mAddCommentButton;                //This button allows to add a comment
+    private ImageView mHistoryButton;                   //This button allows to see the history data
+    private GestureDetectorCompat mGestureDetector;     //Gesture detector allowing to monitor the swipe
+    private Mood mMood;                                 //The current mood
 
     /**Callback methods**/
 
@@ -57,18 +57,19 @@ public class MainActivity extends AppCompatActivity {
         else
             mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
 
-        /*Refresh the screen*/
-
-        refreshScreen();
+        /*When the user clicks on mAddCommentButton, a dialog is shown to enter a comment*/
 
         mAddCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog commentDialog=new Dialog(mContext);
-                commentDialog.setContentView(R.layout.dialog_comment);
+                CommentDialog commentDialog = new CommentDialog(mContext, mMood);
                 commentDialog.show();
             }
         });
+
+        /*Refresh the screen*/
+
+        refreshScreen();
     }
 
     @Override
