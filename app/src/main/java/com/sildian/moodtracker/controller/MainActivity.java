@@ -1,7 +1,7 @@
 package com.sildian.moodtracker.controller;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**The keys for saving bundle**/
 
-    public static final String KEY_MOOD_LEVEL="1001";
-    public static final String KEY_MOOD_COMMENT="1002";
+    private static final String KEY_MOOD_LEVEL="1001";
+    private static final String KEY_MOOD_COMMENT="1002";
 
     /**Attributes**/
 
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mAddCommentButton;                //This button allows to add a comment
     private ImageView mHistoryButton;                   //This button allows to see the history data
     private GestureDetectorCompat mGestureDetector;     //Gesture detector allowing to monitor the swipe
+    private SharedPreferences mSharedPreferences;       //Shared preferences to save and load the mood
     private Mood mMood;                                 //The current mood
 
     /**Callback methods**/
@@ -50,10 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
         mGestureDetector=new GestureDetectorCompat(this, new SwipeGestureListener());
 
-        /*Creates or recovers the mood*/
+        /*Creates the sharedPreferences*/
 
-        if(savedInstanceState==null)
-            mMood=new Mood();
+        mSharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
+
+        /*Creates or loads the mood*/
+
+        if(savedInstanceState==null) {
+            mMood = new Mood();
+            if(mSharedPreferences!=null){
+                mMood.loadMood(mSharedPreferences);
+            }
+        }
         else
             mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
 
@@ -84,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(KEY_MOOD_LEVEL, mMood.getMoodLevel());
         outState.putString(KEY_MOOD_COMMENT, mMood.getComment());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMood.saveMood(mSharedPreferences);
+        super.onDestroy();
     }
 
     /**

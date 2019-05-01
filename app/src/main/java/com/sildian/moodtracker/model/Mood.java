@@ -1,5 +1,7 @@
 package com.sildian.moodtracker.model;
 
+import android.content.SharedPreferences;
+
 import java.util.Calendar;
 
 public class Mood {
@@ -16,6 +18,12 @@ public class Mood {
 
     public static final String[] IMAGES={"smiley_sad", "smiley_disappointed", "smiley_normal", "smiley_happy", "smiley_super_happy"};
     public static final String[] COLORS={"faded_red", "warm_grey", "cornflower_blue_65", "light_sage", "banana_yellow"};
+
+    /**The keys for saving and loading data in the SharedPreferences**/
+
+    public static final String FILE_MOOD_DATA="mood_data.xml";
+    private static final String KEY_MOOD_LEVEL="KEY_MOOD_LEVEL_J";
+    private static final String KEY_MOOD_COMMENT="KEY_MOOD_COMMENT_J";
 
     /**Attributes**/
 
@@ -72,6 +80,26 @@ public class Mood {
             mMoodLevel=SAD;
     }
 
+
+    /**
+     * saveMood
+     * @param sharedPreferences : the sharedPreferences to be used to save the mood
+     */
+
+    public void saveMood(SharedPreferences sharedPreferences){
+        sharedPreferences.edit().putInt(KEY_MOOD_LEVEL, mMoodLevel).apply();
+        sharedPreferences.edit().putString(KEY_MOOD_COMMENT, mComment).apply();
+    }
+
+    /**
+     * loadMood
+     * @param sharedPreferences : the sharedPreferences to be used to load the mood
+     */
+
+    public void loadMood(SharedPreferences sharedPreferences){
+        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL, HAPPY);
+        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT, "");
+    }
 
     /**Getters and Setters**/
 
