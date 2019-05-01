@@ -3,4 +3,11 @@
     <string name="text_comment">Comment</string>
     <string name="text_validate">Validate</string>
     <string name="text_cancel">Cancel</string>
+    <string name="text_jm1">Yesterday</string>
+    <string name="text_jm2">Two days ago</string>
+    <string name="text_jm3">Three days ago</string>
+    <string name="text_jm4">Four days ago</string>
+    <string name="text_jm5">Five days ago</string>
+    <string name="text_jm6">Six days ago</string>
+    <string name="text_jm7">A week ago</string>
 </resources>

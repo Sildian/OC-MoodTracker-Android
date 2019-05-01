@@ -1,6 +1,7 @@
 package com.sildian.moodtracker.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CommentDialog commentDialog = new CommentDialog(mContext, mMood);
                 commentDialog.show();
+            }
+        });
+
+        /*When the user clicks on mHistoryButton, starts HistoryActivity*/
+
+        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent historyActivityIntent=new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(historyActivityIntent);
             }
         });
 
