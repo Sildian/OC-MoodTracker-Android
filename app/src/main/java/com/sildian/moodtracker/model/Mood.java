@@ -2,8 +2,6 @@ package com.sildian.moodtracker.model;
 
 import android.content.SharedPreferences;
 
-import java.util.Calendar;
-
 public class Mood {
 
     /**The different values of mMoodLevel**/
