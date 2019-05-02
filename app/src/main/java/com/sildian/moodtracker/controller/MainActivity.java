@@ -19,8 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**The keys for saving bundle**/
 
-    private static final String KEY_MOOD_LEVEL="1001";
-    private static final String KEY_MOOD_COMMENT="1002";
+    private static final String KEY_MOOD_DAY="1001";
+    private static final String KEY_MOOD_LEVEL="1002";
+    private static final String KEY_MOOD_COMMENT="1003";
 
     /**Attributes**/
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else
-            mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
+            mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_DAY), savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
 
         /*When the user clicks on mAddCommentButton, a dialog is shown to enter a comment*/
 
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_MOOD_DAY, mMood.getDay());
         outState.putInt(KEY_MOOD_LEVEL, mMood.getMoodLevel());
         outState.putString(KEY_MOOD_COMMENT, mMood.getComment());
         super.onSaveInstanceState(outState);

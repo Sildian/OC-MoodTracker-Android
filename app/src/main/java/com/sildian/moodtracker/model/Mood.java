@@ -22,36 +22,36 @@ public class Mood {
     /**The keys for saving and loading data in the SharedPreferences**/
 
     public static final String FILE_MOOD_DATA="mood_data.xml";
-    private static final String KEY_MOOD_LEVEL="KEY_MOOD_LEVEL_J";
-    private static final String KEY_MOOD_COMMENT="KEY_MOOD_COMMENT_J";
+    private static final String KEY_MOOD_DAY="KEY_MOOD_DAY_DM";
+    private static final String KEY_MOOD_LEVEL="KEY_MOOD_LEVEL_DM";
+    private static final String KEY_MOOD_COMMENT="KEY_MOOD_COMMENT_DM";
 
     /**Attributes**/
 
-    private Calendar mDate;                         //Date of the mood
+    private int mDay;                               //Number of days elapsed since the mood was registered
     private int mMoodLevel;                         //Mood level
     private String mComment;                        //Comment related to the mood
 
     /**
      * Constructor
-     * Fills mDate with the date of the current day
-     * Set mMoodLevel to HAPPY by default and mComment to ""
+     * Set mDay to 0, mMoodLevel to HAPPY and mComment to ""
      */
 
     public Mood() {
-        mDate=Calendar.getInstance();
+        mDay=0;
         mMoodLevel=HAPPY;
         mComment="";
     }
 
     /**
      * Constructor
-     * Fills mDate with the date of the current day
+     * @param day : number of days elapsed since the mood was registered
      * @param moodLevel : the mood level
      * @param comment : the comment
      */
 
-    public Mood(int moodLevel, String comment) {
-        mDate=Calendar.getInstance();
+    public Mood(int day, int moodLevel, String comment) {
+        mDay=day;
         mMoodLevel=moodLevel;
         mComment=comment;
     }
@@ -80,15 +80,15 @@ public class Mood {
             mMoodLevel=SAD;
     }
 
-
     /**
      * saveMood
      * @param sharedPreferences : the sharedPreferences to be used to save the mood
      */
 
     public void saveMood(SharedPreferences sharedPreferences){
-        sharedPreferences.edit().putInt(KEY_MOOD_LEVEL, mMoodLevel).apply();
-        sharedPreferences.edit().putString(KEY_MOOD_COMMENT, mComment).apply();
+        sharedPreferences.edit().putInt(KEY_MOOD_DAY+mDay, mDay).apply();
+        sharedPreferences.edit().putInt(KEY_MOOD_LEVEL+mDay, mMoodLevel).apply();
+        sharedPreferences.edit().putString(KEY_MOOD_COMMENT+mDay, mComment).apply();
     }
 
     /**
@@ -97,14 +97,15 @@ public class Mood {
      */
 
     public void loadMood(SharedPreferences sharedPreferences){
-        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL, HAPPY);
-        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT, "");
+        mDay=sharedPreferences.getInt(KEY_MOOD_DAY+mDay, 0);
+        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL+mDay, HAPPY);
+        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT+mDay, "");
     }
 
     /**Getters and Setters**/
 
-    public Calendar getDate() {
-        return mDate;
+    public int getDay() {
+        return mDay;
     }
 
     public int getMoodLevel() {

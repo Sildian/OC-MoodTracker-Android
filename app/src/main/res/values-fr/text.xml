@@ -3,11 +3,11 @@
     <string name="text_comment">Commentaire</string>
     <string name="text_validate">Valider</string>
     <string name="text_cancel">Annuler</string>
-    <string name="text_jm1">Hier</string>
-    <string name="text_jm2">Avant-hier</string>
-    <string name="text_jm3">Il y a trois jours</string>
-    <string name="text_jm4">Il y a quatre jours</string>
-    <string name="text_jm5">Il y a cinq jours</string>
-    <string name="text_jm6">Il y a six jours</string>
-    <string name="text_jm7">Il y a une semaine</string>
+    <string name="text_dm1">Hier</string>
+    <string name="text_dm2">Avant-hier</string>
+    <string name="text_dm3">Il y a trois jours</string>
+    <string name="text_dm4">Il y a quatre jours</string>
+    <string name="text_dm5">Il y a cinq jours</string>
+    <string name="text_dm6">Il y a six jours</string>
+    <string name="text_dm7">Il y a une semaine</string>
 </resources>
