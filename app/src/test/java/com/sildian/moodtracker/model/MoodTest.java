@@ -7,6 +7,13 @@ import static org.junit.Assert.*;
 public class MoodTest {
 
     @Test
+    public void given_null_when_increaseDay_then_mDayIncreasedBy1() {
+        Mood mood=new Mood();
+        mood.increaseDay();
+        assertEquals(1, mood.getDay());
+    }
+
+    @Test
     public void given_null_when_increaseMoodTwice_then_mMoodLevelIsNotAboveSUPER_HAPPY() {
         Mood mood=new Mood();
         mood.increaseMood();

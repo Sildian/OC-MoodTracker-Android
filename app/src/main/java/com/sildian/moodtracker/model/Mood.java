@@ -4,6 +4,10 @@ import android.content.SharedPreferences;
 
 public class Mood {
 
+    /***The number of moods to be stored within the history*/
+
+    public static final int NUMBER_MOODS_HISTORY=7;
+
     /**The different values of mMoodLevel**/
 
     public static final int SAD=0;
@@ -20,9 +24,9 @@ public class Mood {
     /**The keys for saving and loading data in the SharedPreferences**/
 
     public static final String FILE_MOOD_DATA="mood_data.xml";
-    private static final String KEY_MOOD_DAY="KEY_MOOD_DAY_DM";
-    private static final String KEY_MOOD_LEVEL="KEY_MOOD_LEVEL_DM";
-    private static final String KEY_MOOD_COMMENT="KEY_MOOD_COMMENT_DM";
+    public static final String KEY_MOOD_DAY="KEY_MOOD_DAY_DM";
+    public static final String KEY_MOOD_LEVEL="KEY_MOOD_LEVEL_DM";
+    public static final String KEY_MOOD_COMMENT="KEY_MOOD_COMMENT_DM";
 
     /**Attributes**/
 
@@ -52,6 +56,15 @@ public class Mood {
         mDay=day;
         mMoodLevel=moodLevel;
         mComment=comment;
+    }
+
+    /**
+     * increaseDay
+     * Increases the day by 1
+     */
+
+    public void increaseDay(){
+        mDay++;
     }
 
     /**
