@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sildian.moodtracker.R;
 import com.sildian.moodtracker.model.Mood;
@@ -40,6 +41,17 @@ public class HistoryActivity extends ListActivity {
         /*Sets the adapter to the ListView*/
 
         setListAdapter(new HistoryAdapter(this, R.layout.list_view_history, moodArrayList));
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        /*Gets the item mood and, if a comment exists, displays it as a toast*/
+
+        Mood itemMood=(Mood)getListView().getItemAtPosition(position);
+        if(itemMood.getComment()!="")
+            Toast.makeText(this, itemMood.getComment(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -136,5 +148,4 @@ public class HistoryActivity extends ListActivity {
             ImageView commentButton;
         }
     }
-
 }
