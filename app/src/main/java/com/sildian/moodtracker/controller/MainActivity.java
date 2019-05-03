@@ -146,20 +146,20 @@ public class MainActivity extends AppCompatActivity {
         Intent updateHistoryServiceIntent=new Intent(MainActivity.this, UpdateHistoryService.class);
         PendingIntent updateHistoryServicePendingIntent=PendingIntent.getService(this, 0, updateHistoryServiceIntent, 0);
 
-        /*Creates a Calendar to set the next update time (TEMPORARY 1 MINUTE)*/
+        /*Creates a Calendar to set the next update time at midnight and the interval at one day*/
 
         Calendar calendar=Calendar.getInstance();
         int year=calendar.get(Calendar.YEAR);
         int month=calendar.get(Calendar.MONTH);
-        int day=calendar.get(Calendar.DAY_OF_MONTH);
-        int hour=calendar.get(Calendar.HOUR);
-        int minute=calendar.get(Calendar.MINUTE)+1;
+        int day=calendar.get(Calendar.DAY_OF_MONTH+1);
+        int hour=0;
+        int minute=0;
         calendar.set(year, month, day, hour, minute);
 
         /*Creates an alarm manager allowing to automatically starts UpdateHistoryService*/
 
         AlarmManager alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1, updateHistoryServicePendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, updateHistoryServicePendingIntent);
     }
 
     /**
