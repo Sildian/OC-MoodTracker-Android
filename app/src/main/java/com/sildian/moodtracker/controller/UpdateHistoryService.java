@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.sildian.moodtracker.model.Mood;
 
@@ -22,43 +21,18 @@ public class UpdateHistoryService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i("CHECK_HISTORY", "Start");
-
         /*Creates an ArrayList to get the different moods*/
 
-        ArrayList<Mood> moodsHistory=new ArrayList<Mood>();
+        ArrayList<Mood> historyMoods=new ArrayList<Mood>();
 
         /*Opens the SharedPreferences file containing the data*/
 
         SharedPreferences sharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
 
-        /*If the file already exists*/
+        /*Loads the history moods, then saves them again after changing their days*/
 
-        if(sharedPreferences!=null) {
-
-            /*For each Mood in the file from 0 to the maximum number of stored moods, adds the mood to moodsHistory*/
-
-            for (int i = 0; i <= Mood.NUMBER_MOODS_HISTORY; i++) {
-                if(sharedPreferences.contains(Mood.KEY_MOOD_DAY+i)) {
-                    moodsHistory.add(new Mood(sharedPreferences, i));
-                }
-            }
-        }
-
-        /*For each Mood in moodsHistory, increases the day by 1.
-        Then if the resulted day is above the number of moods to be stored, removes the mood. Else saves it.*/
-
-        for(int i=0;i<moodsHistory.size();i++){
-            Log.i("CHECK_HISTORY_LOAD", String.valueOf(moodsHistory.get(i).getDay()));
-
-            moodsHistory.get(i).increaseDay();
-            if(moodsHistory.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY)
-                moodsHistory.remove(i);
-            else {
-                Log.i("CHECK_HISTORY_SAVE", String.valueOf(moodsHistory.get(i).getDay()));
-                moodsHistory.get(i).saveMood(sharedPreferences);
-            }
-        }
+        historyMoods=Mood.loadHistoryMoods(sharedPreferences, 0);
+        Mood.saveHistoryMoods(sharedPreferences, historyMoods);
 
         /*Creates and saves a new Mood for the new day*/
 

@@ -2,6 +2,7 @@ package com.sildian.moodtracker.controller;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,20 +28,14 @@ public class HistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        /*TEMPORARY : list of moods to fill the ListView*/
+        /*Opens the SharedPreferences file containing the data, then loads the data into an ArrayList*/
 
-        ArrayList<Mood> moodArrayList=new ArrayList<Mood>();
-        moodArrayList.add(new Mood(7, Mood.HAPPY, ""));
-        moodArrayList.add(new Mood(6, Mood.NORMAL, ""));
-        moodArrayList.add(new Mood(5, Mood.DISAPPOINTED, ""));
-        moodArrayList.add(new Mood(4, Mood.SUPER_HAPPY, "Oh yeah!"));
-        moodArrayList.add(new Mood(3, Mood.SAD, "Sniff"));
-        moodArrayList.add(new Mood(2, Mood.NORMAL, ""));
-        moodArrayList.add(new Mood(1, Mood.NORMAL, ""));
+        SharedPreferences sharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
+        ArrayList<Mood> historyMoods=Mood.loadHistoryMoods(sharedPreferences, 1);
 
         /*Sets the adapter to the ListView*/
 
-        setListAdapter(new HistoryAdapter(this, R.layout.list_view_history, moodArrayList));
+        setListAdapter(new HistoryAdapter(this, R.layout.list_view_history, historyMoods));
     }
 
     @Override

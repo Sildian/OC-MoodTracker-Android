@@ -2,6 +2,8 @@ package com.sildian.moodtracker.model;
 
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+
 public class Mood {
 
     /***The number of moods to be stored within the history*/
@@ -142,5 +144,55 @@ public class Mood {
 
     public void setComment(String comment) {
         mComment = comment;
+    }
+
+    /**
+     * saveHistoryMoods
+     * Saves the last history moods according to the number of moods to be stored, after changing their days
+     * @param sharedPreferences : the file to be used to save the moods
+     * @param historyMoods : an ArrayList containing the moods to be saved
+     */
+
+    public static void saveHistoryMoods(SharedPreferences sharedPreferences, ArrayList<Mood> historyMoods){
+
+        /*For each Mood in moodsHistory, increases the day by 1.
+        Then if the resulted day is above the number of moods to be stored, removes the mood. Else saves it.*/
+
+        for(int i=0;i<historyMoods.size();i++){
+            historyMoods.get(i).increaseDay();
+            if(historyMoods.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY)
+                historyMoods.remove(i);
+            else {
+                historyMoods.get(i).saveMood(sharedPreferences);
+            }
+        }
+    }
+
+    /**
+     * loadHistoryMoods
+     * Loads the history moods according to the number of moods to be stored
+     * @param sharedPreferences : the file to be used to load the moods
+     * @param firstMoodId : the first mood id to load from the file (=0 to load from the beginning)
+     * @return an ArrayList containing the loaded moods
+     */
+
+    public static ArrayList<Mood> loadHistoryMoods(SharedPreferences sharedPreferences, int firstMoodId){
+
+        /*Creates an ArrayList to get the moods*/
+
+        ArrayList<Mood> historyMoods=new ArrayList<Mood>();
+
+        if(sharedPreferences!=null) {
+
+            /*For each Mood in the file from 0 to the maximum number of stored moods, adds the mood to moodsHistory*/
+
+            for (int i = Mood.NUMBER_MOODS_HISTORY; i >=firstMoodId; i--) {
+                if(sharedPreferences.contains(Mood.KEY_MOOD_DAY+i)) {
+                    historyMoods.add(new Mood(sharedPreferences, i));
+                }
+            }
+        }
+
+        return historyMoods;
     }
 }
