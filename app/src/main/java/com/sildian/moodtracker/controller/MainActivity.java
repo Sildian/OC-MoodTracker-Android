@@ -1,5 +1,7 @@
 package com.sildian.moodtracker.controller;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 
 import com.sildian.moodtracker.R;
 import com.sildian.moodtracker.model.Mood;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
         /*Refresh the screen*/
 
         refreshScreen();
+
+        /*Sets an alarm to automatically update the moods history*/
+
+        setAlarmToUpdateHistory();
     }
 
     @Override
@@ -124,6 +132,34 @@ public class MainActivity extends AppCompatActivity {
         int resIdImage=getResources().getIdentifier(Mood.IMAGES[mMood.getMoodLevel()], "drawable", getPackageName());
         mLayout.setBackgroundResource(resIdColor);
         mSmileyImage.setImageResource(resIdImage);
+    }
+
+    /**
+     * setAlarmToUpdateHistory
+     * Sets an alarm to automatically update the moods history
+     */
+
+    private void setAlarmToUpdateHistory(){
+
+        /*Creates an intent allowing to start UpdateHistoryService*/
+
+        Intent updateHistoryServiceIntent=new Intent(MainActivity.this, UpdateHistoryService.class);
+        PendingIntent updateHistoryServicePendingIntent=PendingIntent.getService(this, 0, updateHistoryServiceIntent, 0);
+
+        /*Creates a Calendar to set the next update time (TEMPORARY 1 MINUTE)*/
+
+        Calendar calendar=Calendar.getInstance();
+        int year=calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH);
+        int day=calendar.get(Calendar.DAY_OF_MONTH);
+        int hour=calendar.get(Calendar.HOUR);
+        int minute=calendar.get(Calendar.MINUTE)+1;
+        calendar.set(year, month, day, hour, minute);
+
+        /*Creates an alarm manager allowing to automatically starts UpdateHistoryService*/
+
+        AlarmManager alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1, updateHistoryServicePendingIntent);
     }
 
     /**
