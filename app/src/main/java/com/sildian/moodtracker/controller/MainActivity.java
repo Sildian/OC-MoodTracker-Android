@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
         /*Creates or loads the mood*/
 
         if(savedInstanceState==null) {
-            mMood = new Mood();
-            if(mSharedPreferences!=null){
-                mMood.loadMood(mSharedPreferences);
-            }
+            if(mSharedPreferences!=null&&mSharedPreferences.contains(Mood.KEY_MOOD_DAY+0))
+                mMood=new Mood(mSharedPreferences, 0);
+            else
+                mMood=new Mood();
         }
         else
             mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_DAY), savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));

@@ -59,6 +59,18 @@ public class Mood {
     }
 
     /**
+     * Constructor
+     * @param sharedPreferences : the file to be used to load the data
+     * @param day : the days elapsed since the mood was registered
+     */
+
+    public Mood(SharedPreferences sharedPreferences, int day){
+        mDay=sharedPreferences.getInt(KEY_MOOD_DAY+day, 0);
+        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL+day, HAPPY);
+        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT+day, "");
+    }
+
+    /**
      * increaseDay
      * Increases the day by 1
      */
@@ -105,12 +117,13 @@ public class Mood {
     /**
      * loadMood
      * @param sharedPreferences : the sharedPreferences to be used to load the mood
+     * @param day : the days elapsed since the mood was registered
      */
 
-    public void loadMood(SharedPreferences sharedPreferences){
-        mDay=sharedPreferences.getInt(KEY_MOOD_DAY+mDay, 0);
-        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL+mDay, HAPPY);
-        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT+mDay, "");
+    public void loadMood(SharedPreferences sharedPreferences, int day){
+        mDay=sharedPreferences.getInt(KEY_MOOD_DAY+day, 0);
+        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL+day, HAPPY);
+        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT+day, "");
     }
 
     /**Getters and Setters**/

@@ -22,7 +22,7 @@ public class UpdateHistoryService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i("CHECK_UPDATE", "Start");
+        Log.i("CHECK_HISTORY", "Start");
 
         /*Creates an ArrayList to get the different moods*/
 
@@ -36,17 +36,11 @@ public class UpdateHistoryService extends Service {
 
         if(sharedPreferences!=null) {
 
-            /*Creates a Mood to be used as a buffer*/
-
-            Mood moodBuffer;
-
             /*For each Mood in the file from 0 to the maximum number of stored moods, adds the mood to moodsHistory*/
 
             for (int i = 0; i <= Mood.NUMBER_MOODS_HISTORY; i++) {
                 if(sharedPreferences.contains(Mood.KEY_MOOD_DAY+i)) {
-                    moodBuffer=new Mood();
-                    moodBuffer.loadMood(sharedPreferences);
-                    moodsHistory.add(moodBuffer);
+                    moodsHistory.add(new Mood(sharedPreferences, i));
                 }
             }
         }
@@ -55,11 +49,15 @@ public class UpdateHistoryService extends Service {
         Then if the resulted day is above the number of moods to be stored, removes the mood. Else saves it.*/
 
         for(int i=0;i<moodsHistory.size();i++){
+            Log.i("CHECK_HISTORY_LOAD", String.valueOf(moodsHistory.get(i).getDay()));
+
             moodsHistory.get(i).increaseDay();
             if(moodsHistory.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY)
                 moodsHistory.remove(i);
-            else
+            else {
+                Log.i("CHECK_HISTORY_SAVE", String.valueOf(moodsHistory.get(i).getDay()));
                 moodsHistory.get(i).saveMood(sharedPreferences);
+            }
         }
 
         /*Creates and saves a new Mood for the new day*/
