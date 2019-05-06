@@ -158,7 +158,7 @@ public class Mood {
         /*For each Mood in moodsHistory, increases the day by 1.
         Then if the resulted day is above the number of moods to be stored, removes the mood. Else saves it.*/
 
-        for(int i=0;i<historyMoods.size();i++){
+        for(int i=historyMoods.size()-1;i>=0;i--){
             historyMoods.get(i).increaseDay();
             if(historyMoods.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY)
                 historyMoods.remove(i);

@@ -1,25 +1,18 @@
 package com.sildian.moodtracker.controller;
 
-import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 
 import com.sildian.moodtracker.model.Mood;
 
 import java.util.ArrayList;
 
-public class UpdateHistoryService extends Service {
-
-    /**Constructor**/
-
-    public UpdateHistoryService() {
-    }
-
-    /**Callback methods**/
+public class UpdateHistoryReceiver extends BroadcastReceiver {
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onReceive(Context context, Intent intent) {
 
         /*Creates an ArrayList to get the different moods*/
 
@@ -27,7 +20,7 @@ public class UpdateHistoryService extends Service {
 
         /*Opens the SharedPreferences file containing the data*/
 
-        SharedPreferences sharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
+        SharedPreferences sharedPreferences=context.getSharedPreferences(Mood.FILE_MOOD_DATA, Context.MODE_PRIVATE);
 
         /*Loads the history moods, then saves them again after changing their days*/
 
@@ -38,13 +31,5 @@ public class UpdateHistoryService extends Service {
 
         Mood newDayMood=new Mood();
         newDayMood.saveMood(sharedPreferences);
-
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

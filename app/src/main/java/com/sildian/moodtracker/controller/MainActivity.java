@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -95,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
         /*Refresh the screen*/
 
         refreshScreen();
-
-        /*Sets an alarm to automatically update the moods history*/
-
-        setAlarmToUpdateHistory();
     }
 
     @Override
@@ -119,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mMood.saveMood(mSharedPreferences);
+        setAlarmToUpdateHistory();
         super.onDestroy();
     }
 
@@ -141,25 +139,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAlarmToUpdateHistory(){
 
-        /*Creates an intent allowing to start UpdateHistoryService*/
+        /*Creates an intent allowing to start UpdateHistoryReceiver*/
 
-        Intent updateHistoryServiceIntent=new Intent(MainActivity.this, UpdateHistoryService.class);
-        PendingIntent updateHistoryServicePendingIntent=PendingIntent.getService(this, 0, updateHistoryServiceIntent, 0);
+        Intent updateHistoryReceiverIntent=new Intent(MainActivity.this, UpdateHistoryReceiver.class);
+        PendingIntent updateHistoryReceiverPendingIntent=PendingIntent.getBroadcast(this, 0, updateHistoryReceiverIntent, 0);
 
-        /*Creates a Calendar to set the next update time at midnight and the interval at one day*/
+        /*Creates a Calendar to set the next update time at midnight*/
 
         Calendar calendar=Calendar.getInstance();
-        int year=calendar.get(Calendar.YEAR);
-        int month=calendar.get(Calendar.MONTH);
-        int day=calendar.get(Calendar.DAY_OF_MONTH+1);
-        int hour=0;
-        int minute=0;
-        calendar.set(year, month, day, hour, minute);
+        calendar.set(Calendar.DAY_OF_MONTH, Calendar.DAY_OF_MONTH+1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
 
-        /*Creates an alarm manager allowing to automatically starts UpdateHistoryService*/
+        /*Creates an alarm manager allowing to automatically starts UpdateHistoryReceiver at midnight with a one day interval*/
 
         AlarmManager alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, updateHistoryServicePendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, updateHistoryReceiverPendingIntent);
     }
 
     /**
