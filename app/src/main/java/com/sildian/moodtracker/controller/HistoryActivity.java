@@ -1,25 +1,35 @@
 package com.sildian.moodtracker.controller;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.sildian.moodtracker.R;
 import com.sildian.moodtracker.model.Mood;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends ListActivity {
+public class HistoryActivity extends AppCompatActivity {
+
+    /***Attributes*/
+
+    private ListView mListView;                 //The ListView containing the history moods data
+    private PieChart mPieChart;                 //A pie chart showing the history data
 
     /**Callback methods**/
 
@@ -33,20 +43,40 @@ public class HistoryActivity extends ListActivity {
         SharedPreferences sharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
         ArrayList<Mood> historyMoods=Mood.loadHistoryMoods(sharedPreferences, 1);
 
-        /*Sets the adapter to the ListView*/
+        /*Sets theListView*/
 
-        setListAdapter(new HistoryAdapter(this, R.layout.list_view_history, historyMoods));
-    }
+        mListView=findViewById(R.id.activity_history_list);
+        mListView.setAdapter(new HistoryAdapter(this, R.layout.list_view_history, historyMoods));
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        /*Gets the item mood and, if a comment exists, displays it as a toast*/
+                /*Gets the item mood and, if a comment exists, displays it as a toast*/
 
-        Mood itemMood=(Mood)getListView().getItemAtPosition(position);
-        if(itemMood.getComment()!="")
-            Toast.makeText(this, itemMood.getComment(), Toast.LENGTH_SHORT).show();
+                Mood itemMood=(Mood)mListView.getItemAtPosition(position);
+                if(itemMood.getComment()!="")
+                    Toast.makeText(getBaseContext(), itemMood.getComment(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*Sets the pie chart*/
+
+        mPieChart=findViewById(R.id.activity_history_chart);
+        List<PieEntry> entries = new ArrayList<>();
+
+        int moodsCategories[]={0, 0, 0, 0, 0};
+        for(int i=0;i<historyMoods.size();i++)
+            moodsCategories[historyMoods.get(i).getMoodLevel()]++;
+
+        for(int i=0;i<moodsCategories.length;i++)
+            if(moodsCategories[i]!=0)
+                entries.add(new PieEntry(moodsCategories[i], String.valueOf(i)));
+
+        PieDataSet set = new PieDataSet(entries, "Moods");
+        PieData data = new PieData(set);
+        mPieChart.setData(data);
+        mPieChart.invalidate();
     }
 
     /**

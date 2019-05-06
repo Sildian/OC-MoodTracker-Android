@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.widget.ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".controller.HistoryActivity">
 
-</android.widget.ListView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/activity_history_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:smoothScrollbar="false" />
+
+            <view
+                android:id="@+id/activity_history_chart"
+                class="com.github.mikephil.charting.charts.PieChart"
+                id="@+id/view"
+                android:layout_width="300dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="2" />
+
+            <TextView
+                android:id="@+id/activity_history_text_no_history"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="@string/text_no_history"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.widget.LinearLayout>

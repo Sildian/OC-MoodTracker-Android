@@ -10,4 +10,5 @@
     <string name="text_dm5">Il y a cinq jours</string>
     <string name="text_dm6">Il y a six jours</string>
     <string name="text_dm7">Il y a une semaine</string>
+    <string name="text_no_history">Il n\'y a pas encore d\'historique.</string>
 </resources>
