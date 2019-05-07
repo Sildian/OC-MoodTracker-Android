@@ -30,6 +30,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ListView mListView;                 //The ListView containing the history moods data
     private PieChart mPieChart;                 //A pie chart showing the history data
+    private TextView mNoHistoryText;            //A text to display in case there is no history
 
     /**Callback methods**/
 
@@ -43,10 +44,43 @@ public class HistoryActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences=getSharedPreferences(Mood.FILE_MOOD_DATA, MODE_PRIVATE);
         ArrayList<Mood> historyMoods=Mood.loadHistoryMoods(sharedPreferences, 1);
 
-        /*Sets theListView*/
+        /*Sets the different views*/
 
         mListView=findViewById(R.id.activity_history_list);
+        mPieChart=findViewById(R.id.activity_history_chart);
+        mNoHistoryText = findViewById(R.id.activity_history_text_no_history);
+
+        /*If there is no history data*/
+
+        if(historyMoods.isEmpty()) {
+
+            /*Hides the list and the chart*/
+
+            mListView.setVisibility(View.GONE);
+            mPieChart.setVisibility(View.GONE);
+
+        }else{
+
+            /*Else generates the list and the chart, and hides the text*/
+
+            generateListView(historyMoods);
+            generatePieChart(historyMoods);
+            mNoHistoryText.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * generateListView
+     * @param historyMoods : the list of items allowing to fill the list
+     */
+
+    private void generateListView(ArrayList<Mood> historyMoods){
+
+        /*Sets the adapter*/
+
         mListView.setAdapter(new HistoryAdapter(this, R.layout.list_view_history, historyMoods));
+
+        /*OnItemClick*/
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,23 +93,81 @@ public class HistoryActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), itemMood.getComment(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        /*Sets the pie chart*/
+    /**
+     * generatePieChart
+     * @param historyMoods : the list of items allowing to fill the list
+     */
 
-        mPieChart=findViewById(R.id.activity_history_chart);
-        List<PieEntry> entries = new ArrayList<>();
+    private void generatePieChart(ArrayList<Mood> historyMoods){
 
-        int moodsCategories[]={0, 0, 0, 0, 0};
+        /*Main items to generate the entries*/
+
+        List<PieEntry> entries = new ArrayList<>();                     //The entries allowing to fill the pie chart
+        List<Integer> entriesMoodLevels=new ArrayList<>();              //The mood levels related to each entry
+
+        /*This table will contain the number of stored value for each possible mood category*/
+
+        int moodsCategories[]=new int[Mood.NUMBER_MOODS_CATEGORIES];
+
+        /*Initializes each item in moodsCategories to 0*/
+
+        for(int i=0;i<moodsCategories.length;i++)
+            moodsCategories[i]=0;
+
+        /*For each item existing in historyMoods, add 1 to the related category in moodsCategories*/
+
         for(int i=0;i<historyMoods.size();i++)
             moodsCategories[historyMoods.get(i).getMoodLevel()]++;
 
-        for(int i=0;i<moodsCategories.length;i++)
-            if(moodsCategories[i]!=0)
-                entries.add(new PieEntry(moodsCategories[i], String.valueOf(i)));
+        /*This will be used to define the label of each entry*/
 
-        PieDataSet set = new PieDataSet(entries, "Moods");
-        PieData data = new PieData(set);
+        int resIdLabel;                                             //The resource id
+        TextView entryLabel=new TextView(this);             //A TextView to turn the resource id into a String
+
+        /*For each item in moodsCategories*/
+
+        for(int i=0;i<moodsCategories.length;i++) {
+
+            /*If the number of stored values for the current category is different than 0*/
+
+            if (moodsCategories[i] != 0) {
+
+                /*Defines the label*/
+
+                resIdLabel=getResources().getIdentifier("text_mood_level_"+i, "string", getPackageName());
+                entryLabel.setText(resIdLabel);
+
+                /*Adds a new entry*/
+
+                entries.add(new PieEntry(moodsCategories[i], entryLabel.getText().toString()));
+                entriesMoodLevels.add(i);
+            }
+        }
+
+        /*Main items to generate the pie chart*/
+
+        PieDataSet pieDataSet = new PieDataSet(entries, "");          //The data set, filled with the entries
+        ArrayList<Integer> moodsColors=new ArrayList<Integer>();            //The list of colors for the chart
+        int resIdColor;                                                     //A resource id used to seek the colors
+
+        /*For each entry, defines the color to be used*/
+
+        for(int i=0;i<entries.size();i++){
+            resIdColor=getResources().getIdentifier(Mood.COLORS[entriesMoodLevels.get(i)], "color", getPackageName());
+            moodsColors.add(getResources().getColor(resIdColor));
+        }
+
+        /*Sets the colors*/
+
+        pieDataSet.setColors(moodsColors);
+
+        /*Then generates the pie chart*/
+
+        PieData data = new PieData(pieDataSet);
         mPieChart.setData(data);
+        mPieChart.getDescription().setText("");
         mPieChart.invalidate();
     }
 
@@ -152,7 +244,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             /*Sets the parameters of the view using the resources and the current mood*/
 
-            saveHistoryItem.layout.setLayoutParams(new ListView.LayoutParams((int)(screenWidth*(itemMood.getMoodLevel()+1)/5), ListView.LayoutParams.MATCH_PARENT));
+            saveHistoryItem.layout.setLayoutParams(new ListView.LayoutParams((int)(screenWidth*(itemMood.getMoodLevel()+1)/Mood.NUMBER_MOODS_CATEGORIES), ListView.LayoutParams.MATCH_PARENT));
             saveHistoryItem.layout.setBackgroundResource(resIdColor);
             saveHistoryItem.text.setText(resIdText);
             saveHistoryItem.commentButton.setImageResource(R.drawable.ic_comment_black_48px);

@@ -10,6 +10,10 @@ public class Mood {
 
     public static final int NUMBER_MOODS_HISTORY=7;
 
+    /**The number of possible values for mMoodLevel**/
+
+    public static final int NUMBER_MOODS_CATEGORIES=5;
+
     /**The different values of mMoodLevel**/
 
     public static final int SAD=0;

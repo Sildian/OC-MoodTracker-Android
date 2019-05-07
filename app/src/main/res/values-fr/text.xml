@@ -3,6 +3,11 @@
     <string name="text_comment">Commentaire</string>
     <string name="text_validate">Valider</string>
     <string name="text_cancel">Annuler</string>
+    <string name="text_mood_level_0">Triste</string>
+    <string name="text_mood_level_1">Déçu</string>
+    <string name="text_mood_level_2">Normal</string>
+    <string name="text_mood_level_3">Content</string>
+    <string name="text_mood_level_4">Super content</string>
     <string name="text_dm1">Hier</string>
     <string name="text_dm2">Avant-hier</string>
     <string name="text_dm3">Il y a trois jours</string>

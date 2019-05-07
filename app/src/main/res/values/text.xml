@@ -3,6 +3,11 @@
     <string name="text_comment">Comment</string>
     <string name="text_validate">Validate</string>
     <string name="text_cancel">Cancel</string>
+    <string name="text_mood_level_0">Sad</string>
+    <string name="text_mood_level_1">Disapointed</string>
+    <string name="text_mood_level_2">Normal</string>
+    <string name="text_mood_level_3">Happy</string>
+    <string name="text_mood_level_4">Super happy</string>
     <string name="text_dm1">Yesterday</string>
     <string name="text_dm2">Two days ago</string>
     <string name="text_dm3">Three days ago</string>

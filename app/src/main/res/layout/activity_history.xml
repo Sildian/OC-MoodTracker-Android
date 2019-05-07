@@ -23,7 +23,7 @@
                 android:id="@+id/activity_history_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:smoothScrollbar="false" />
 
             <view
@@ -33,16 +33,14 @@
                 android:layout_width="300dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="2" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/activity_history_text_no_history"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="@string/text_no_history"
-                android:visibility="gone" />
+                android:text="@string/text_no_history" />
 
         </LinearLayout>
     </ScrollView>
