@@ -49,7 +49,7 @@ public class CommentDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 mMood.setComment(mCommentText.getText().toString());
-                hide();
+                dismiss();
             }
         });
 
@@ -58,7 +58,7 @@ public class CommentDialog extends Dialog {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hide();
+                dismiss();
             }
         });
     }

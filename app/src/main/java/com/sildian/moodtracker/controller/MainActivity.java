@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.sildian.moodtracker.R;
 import com.sildian.moodtracker.model.Mood;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         mAddCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDialog commentDialog = new CommentDialog(mContext, mMood);
-                commentDialog.show();
+                WeakReference<CommentDialog> commentDialog = new WeakReference(new CommentDialog(mContext, mMood));
+                commentDialog.get().show();
             }
         });
 
