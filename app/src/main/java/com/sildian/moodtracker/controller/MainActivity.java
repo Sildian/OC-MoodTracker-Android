@@ -20,6 +20,13 @@ import com.sildian.moodtracker.model.Mood;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+/**
+ * MainActivity
+ * This activity shows the mood of the current day and allows to set it.
+ * It also provides a button allowing to write a comment and a button allowing to watch the history moods.
+ * When the activity stops it runs an alarm which updated the history moods at midnight.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     /**The keys for saving bundle**/

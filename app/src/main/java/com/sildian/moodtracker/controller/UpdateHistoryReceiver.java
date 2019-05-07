@@ -9,6 +9,11 @@ import com.sildian.moodtracker.model.Mood;
 
 import java.util.ArrayList;
 
+/**
+ * UpdateHistoryReceiver
+ * When this receiver is called, it updates the history moods.
+ */
+
 public class UpdateHistoryReceiver extends BroadcastReceiver {
 
     @Override

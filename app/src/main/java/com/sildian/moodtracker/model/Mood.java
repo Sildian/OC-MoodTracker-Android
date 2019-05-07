@@ -4,6 +4,12 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
+/**
+ * Mood
+ * This class allows to monitor the moods levels and the comments.
+ * It also provides methods to save and load a single mood, as well as the history moods.
+ */
+
 public class Mood {
 
     /***The number of moods to be stored within the history*/

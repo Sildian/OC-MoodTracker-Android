@@ -9,6 +9,11 @@ import android.widget.EditText;
 import com.sildian.moodtracker.R;
 import com.sildian.moodtracker.model.Mood;
 
+/**
+ * CommentDialog
+ * This dialog box allows the user to write a comment about the mood of the current day.
+ */
+
 public class CommentDialog extends Dialog {
 
     /**Attributes**/

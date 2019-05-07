@@ -24,6 +24,13 @@ import com.sildian.moodtracker.model.Mood;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * HistoryActivity
+ * This activity shows the history moods registered during the last days.
+ * If a comment is attached to a mood, it is possible to see it by clicking on the related line.
+ * A pie chart is also shown below the history.
+ */
+
 public class HistoryActivity extends AppCompatActivity {
 
     /***Attributes*/
