@@ -113,10 +113,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
         mMood.saveMood(mSharedPreferences);
         setAlarmToUpdateHistory();
-        super.onDestroy();
+        super.onStop();
     }
 
     /**
@@ -146,10 +146,11 @@ public class MainActivity extends AppCompatActivity {
         /*Creates a Calendar to set the next update time at midnight*/
 
         Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, Calendar.DAY_OF_MONTH+1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
 
         /*Creates an alarm manager allowing to automatically starts UpdateHistoryReceiver at midnight with a one day interval*/
 

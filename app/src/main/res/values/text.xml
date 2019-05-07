@@ -15,5 +15,5 @@
     <string name="text_dm5">Five days ago</string>
     <string name="text_dm6">Six days ago</string>
     <string name="text_dm7">A week ago</string>
-    <string name="text_no_history">There is no history yet.</string>
+    <string name="text_no_history">No history is saved yet.</string>
 </resources>
