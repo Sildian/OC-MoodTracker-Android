@@ -2,6 +2,7 @@ package com.sildian.moodtracker.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -178,6 +179,7 @@ public class HistoryActivity extends AppCompatActivity {
         PieData data = new PieData(pieDataSet);
         mPieChart.setData(data);
         mPieChart.getDescription().setText("");
+        mPieChart.setEntryLabelColor(R.color.colorPrimaryDark);
         mPieChart.invalidate();
     }
 
