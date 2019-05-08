@@ -45,8 +45,9 @@ public class CommentDialog extends Dialog {
 
         /*If the current mood already has a comment, then populates mCommentText with it*/
 
-        if(mMood.getComment()!="")
+        if(!mMood.getComment().equals("")) {
             mCommentText.setText(mMood.getComment());
+        }
 
         /*If the user clicks on mValidateButton, validates the comment*/
 

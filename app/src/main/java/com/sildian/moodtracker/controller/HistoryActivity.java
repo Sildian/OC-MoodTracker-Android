@@ -96,8 +96,9 @@ public class HistoryActivity extends AppCompatActivity {
                 /*Gets the item mood and, if a comment exists, displays it as a toast*/
 
                 Mood itemMood=(Mood)mListView.getItemAtPosition(position);
-                if(itemMood.getComment()!="")
-                    Toast.makeText(getBaseContext(), itemMood.getComment(), Toast.LENGTH_SHORT).show();
+                if(!itemMood.getComment().equals("")) {
+                    Toast.makeText(getBaseContext(), itemMood.getComment(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -120,13 +121,15 @@ public class HistoryActivity extends AppCompatActivity {
 
         /*Initializes each item in moodsCategories to 0*/
 
-        for(int i=0;i<moodsCategories.length;i++)
-            moodsCategories[i]=0;
+        for(int i=0;i<moodsCategories.length;i++) {
+            moodsCategories[i] = 0;
+        }
 
         /*For each item existing in historyMoods, add 1 to the related category in moodsCategories*/
 
-        for(int i=0;i<historyMoods.size();i++)
+        for(int i=0;i<historyMoods.size();i++) {
             moodsCategories[historyMoods.get(i).getMoodLevel()]++;
+        }
 
         /*This will be used to define the label of each entry*/
 
@@ -255,8 +258,9 @@ public class HistoryActivity extends AppCompatActivity {
             saveHistoryItem.layout.setBackgroundResource(resIdColor);
             saveHistoryItem.text.setText(resIdText);
             saveHistoryItem.commentButton.setImageResource(R.drawable.ic_comment_black_48px);
-            if(itemMood.getComment()=="")
+            if(itemMood.getComment().equals("")) {
                 saveHistoryItem.commentButton.setVisibility((View.INVISIBLE));
+            }
 
             return convertView;
         }

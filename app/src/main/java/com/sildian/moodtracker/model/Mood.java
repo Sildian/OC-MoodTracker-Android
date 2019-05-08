@@ -77,9 +77,7 @@ public class Mood {
      */
 
     public Mood(SharedPreferences sharedPreferences, int day){
-        mDay=sharedPreferences.getInt(KEY_MOOD_DAY+day, 0);
-        mMoodLevel=sharedPreferences.getInt(KEY_MOOD_LEVEL+day, HAPPY);
-        mComment=sharedPreferences.getString(KEY_MOOD_COMMENT+day, "");
+        loadMood(sharedPreferences, day);
     }
 
     /**
@@ -99,8 +97,9 @@ public class Mood {
 
     public void increaseMood(){
         mMoodLevel++;
-        if(mMoodLevel>SUPER_HAPPY)
-            mMoodLevel=SUPER_HAPPY;
+        if(mMoodLevel>SUPER_HAPPY) {
+            mMoodLevel = SUPER_HAPPY;
+        }
     }
 
     /**
@@ -111,8 +110,9 @@ public class Mood {
 
     public void decreaseMood(){
         mMoodLevel--;
-        if(mMoodLevel<SAD)
-            mMoodLevel=SAD;
+        if(mMoodLevel<SAD) {
+            mMoodLevel = SAD;
+        }
     }
 
     /**
@@ -170,8 +170,9 @@ public class Mood {
 
         for(int i=historyMoods.size()-1;i>=0;i--){
             historyMoods.get(i).increaseDay();
-            if(historyMoods.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY)
+            if(historyMoods.get(i).getDay()>Mood.NUMBER_MOODS_HISTORY) {
                 historyMoods.remove(i);
+            }
             else {
                 historyMoods.get(i).saveMood(sharedPreferences);
             }

@@ -72,13 +72,16 @@ public class MainActivity extends AppCompatActivity {
         /*Creates or loads the mood*/
 
         if(savedInstanceState==null) {
-            if(mSharedPreferences!=null&&mSharedPreferences.contains(Mood.KEY_MOOD_DAY+0))
-                mMood=new Mood(mSharedPreferences, 0);
-            else
-                mMood=new Mood();
+            if(mSharedPreferences!=null&&mSharedPreferences.contains(Mood.KEY_MOOD_DAY+0)) {
+                mMood = new Mood(mSharedPreferences, 0);
+            }
+            else {
+                mMood = new Mood();
+            }
         }
-        else
-            mMood=new Mood(savedInstanceState.getInt(KEY_MOOD_DAY), savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
+        else {
+            mMood = new Mood(savedInstanceState.getInt(KEY_MOOD_DAY), savedInstanceState.getInt(KEY_MOOD_LEVEL), savedInstanceState.getString((KEY_MOOD_COMMENT)));
+        }
 
         /*When the user clicks on mAddCommentButton, a dialog is shown to enter a comment*/
 
@@ -174,10 +177,12 @@ public class MainActivity extends AppCompatActivity {
     private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if(e2.getY()<e1.getY())
+            if(e2.getY()<e1.getY()) {
                 mMood.increaseMood();
-            else if(e2.getY()>e1.getY())
+            }
+            else if(e2.getY()>e1.getY()) {
                 mMood.decreaseMood();
+            }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
     }
